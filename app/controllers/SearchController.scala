@@ -8,10 +8,13 @@ import service.TagService
 class SearchController @Inject()(private val tagService: TagService, cc: ControllerComponents) extends AbstractController(cc) {
 
   def search() = Action { implicit rq =>
-    rq.uri
+    val tags = List("java")
 
-    val json = tagService.stub
-    Ok(Json.prettyPrint(Json.toJson(json)))
+    val result = tagService.countTags(tags)
+
+    val json = Json.toJson(result)
+
+    Ok(Json.prettyPrint(json))
   }
 
 }
