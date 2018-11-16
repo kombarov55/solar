@@ -1,0 +1,8 @@
+@(products: List[model.Product])
+
+<dl>
+    @for(product <- products) {
+        <dt>@product.name</dt>
+        <dd>@product.description</dd>
+    }
+</dl>
