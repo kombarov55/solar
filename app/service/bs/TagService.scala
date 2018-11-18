@@ -1,5 +1,6 @@
 package service.bs
 
+import dto.CountDto
 import javax.inject.{Inject, Singleton}
 import service.da.StackOverflowDaService
 
@@ -21,11 +22,14 @@ class TagService @Inject()(private val daService: StackOverflowDaService, privat
     * @param searchTags теги, по которым необходимо выполнить поиск.
     * @return map из имени тега -> количества.
     */
-  def countTags(searchTags: Seq[String]): Future[Map[String, Int]] = {
+  def countTags(searchTags: Seq[String]): Future[Map[String, CountDto]] = {
     //FIXME: пока что только один тег. Далее композировать все теги.
     val tag = searchTags.head
 
     daService.getByTag(tag)
-      .map { jsValue => jsonExtracter.countTags(jsValue) }
+      .map { jsValue =>
+        jsonExtracter.countTags(jsValue)
+      }
   }
+
 }

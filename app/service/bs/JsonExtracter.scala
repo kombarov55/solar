@@ -1,7 +1,8 @@
 package service.bs
 
+import dto.{QuestionDto, CountDto}
 import javax.inject.Singleton
-import play.api.libs.json.{JsArray, JsString, JsValue}
+import play.api.libs.json._
 
 import scala.collection.mutable
 
@@ -14,34 +15,28 @@ class JsonExtracter {
   /**
     * Посчитать количество встречаемых тегов в ответе.
     *
-    * @param jsValue ответ.
+    * @param response ответ.
     * @return map из тега -> количество их в ответе.
     */
-  def countTags(jsValue: JsValue): Map[String, Int] = {
-    val tags = jsValue \\ "tags"
-
-    tags
-      .flatMap { elem => elem.as[JsArray].value }
-      .map { jsString => jsString.as[JsString].value }
-      .foldLeft(new mutable.HashMap[String, Int]) { (acc, name) =>
-        accumulate(acc, name)
-
-        acc
-      }.toMap
+  def countTags(response: JsValue): Map[String, CountDto] = {
+    (response \ "items").as[JsArray].value
+      .map { jsValue => jsObjectToQuestionDto(jsValue.as[JsObject]) }
+      .foldLeft(mutable.Map[String, CountDto]()) { (acc, dto) => accumulate(acc, dto) }
+      .toMap
   }
 
   /**
-    * Слиять всех map-ы, просуммировав все количества тегов.
+    * Просуммировать все количества тегов.
     *
-    * @param maps список map.
-    * @return map из имени тега -> суммированное количество тегов из всех map.
+    * @param maps список количств тегов.
+    * @return просуммированное количество тегов.
     */
-  def mergeResults(maps: List[Map[String, Int]]): Map[String, Int] = {
-    val resultMap = mutable.Map[String, Int]()
+  def mergeResults(maps: List[Map[String, CountDto]]): Map[String, CountDto] = {
+    val resultMap = mutable.Map[String, CountDto]()
 
     for (map <- maps) {
-      map.foreach { case(name, count) =>
-        accumulate(resultMap, name, count)
+      map.foreach { case (name, CountDto(count, answered)) =>
+        accumulate(resultMap, name, count, answered)
       }
     }
 
@@ -49,15 +44,45 @@ class JsonExtracter {
   }
 
   /**
-    * Увеличить счётчик внутри map.
+    * Увеличить счётчик внутри QuestionDto.
     *
     * @param name имя ключа.
-    * @param map map.
+    * @param map  map.
     */
-  private def accumulate(map: mutable.Map[String, Int], name: String, initialValue: Int = 1): Unit = {
-    val prevValue = map.put(name, initialValue)
+  private def accumulate(map: mutable.Map[String, CountDto], name: String, initialValue: Int = 1, answered: Int): Unit = {
+    val prevValue = map.get(name)
     if (prevValue.isDefined) {
-      map.put(name, prevValue.get + initialValue)
+      prevValue.get.count += initialValue
+      prevValue.get.answered += answered
+    } else {
+      map.put(name, CountDto(initialValue, answered))
     }
+  }
+
+  /**
+    * Применить accumulate к QuestionDto.
+    */
+  private def accumulate(map: mutable.Map[String, CountDto], questionDto: QuestionDto): mutable.Map[String, CountDto] = {
+    val (tagNames, answered) = QuestionDto.unapply(questionDto).get
+
+    for (tagName <- tagNames) {
+      accumulate(map, tagName, 1, if (answered) 1 else 0)
+    }
+
+    map
+  }
+
+  /**
+    * Преобразование JsObject в QuestionDto.
+    *
+    * @param jsObject JsObject.
+    * @return QuestionDto.
+    */
+  private def jsObjectToQuestionDto(jsObject: JsObject): QuestionDto = {
+    val tags = jsObject.value("tags").as[JsArray].value
+      .map { jsValue => jsValue.as[JsString].value }
+    val answered = jsObject.value("is_answered").as[JsBoolean].value
+
+    QuestionDto(tags, answered)
   }
 }

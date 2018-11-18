@@ -1,11 +1,18 @@
 package controllers
 
+import dto.CountDto
 import javax.inject.Inject
-import play.api.libs.json.Json
+import play.api.libs.json._
 import play.api.mvc.{AbstractController, ControllerComponents}
 import service.bs.TagService
+import play.api.libs.functional.syntax._
 
 class SearchController @Inject()(private val tagService: TagService, cc: ControllerComponents) extends AbstractController(cc) {
+
+  private implicit val countDtoWrites: Writes[CountDto] = (
+    (JsPath \ "total").write[Int] and
+      (JsPath \ "answered").write[Int]
+    ) (unlift(CountDto.unapply))
 
   def search() = Action.async { implicit rq =>
     val tags = getTagsFromUrl(rq.uri)
