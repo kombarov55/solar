@@ -36,7 +36,7 @@ class JsonExtracter {
     * @param maps список map.
     * @return map из имени тега -> суммированное количество тегов из всех map.
     */
-  def mergeResults(maps: Seq[Map[String, Int]]): Map[String, Int] = {
+  def mergeResults(maps: List[Map[String, Int]]): Map[String, Int] = {
     val resultMap = mutable.Map[String, Int]()
 
     for (map <- maps) {

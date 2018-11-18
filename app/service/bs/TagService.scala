@@ -22,11 +22,10 @@ class TagService @Inject()(private val daService: StackOverflowDaService, privat
     * @return map из имени тега -> количества.
     */
   def countTags(searchTags: Seq[String]): Future[Map[String, Int]] = {
-    for (tag <- searchTags) {
-      daService.getByTag(tag)
-        .map { jsValue => jsonExtracter.countTags(jsValue) }
-    }
+    //FIXME: пока что только один тег. Далее композировать все теги.
+    val tag = searchTags.head
 
-    ???
+    daService.getByTag(tag)
+      .map { jsValue => jsonExtracter.countTags(jsValue) }
   }
 }
