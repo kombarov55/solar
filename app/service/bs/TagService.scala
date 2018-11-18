@@ -3,6 +3,7 @@ package service.bs
 import dto.CountDto
 import javax.inject.{Inject, Singleton}
 import service.da.StackOverflowDaService
+import util.FixedSizeExecutionContext
 
 import scala.concurrent.Future
 
@@ -12,9 +13,11 @@ import scala.concurrent.Future
   * @param daService сервис по получению данных по вопросам stackOverflow.
   */
 @Singleton
-class TagService @Inject()(private val daService: StackOverflowDaService, private val jsonExtracter: JsonExtracter) {
-
-  import scala.concurrent.ExecutionContext.Implicits.global
+class TagService @Inject()(
+    private val daService: StackOverflowDaService,
+    private val jsonExtracter: JsonExtracter,
+    implicit private val executionContext: FixedSizeExecutionContext
+) {
 
   /**
     * Получить количество встречаемых тегов в вопросах, которые нашли поиском по тегу.
@@ -23,13 +26,20 @@ class TagService @Inject()(private val daService: StackOverflowDaService, privat
     * @return map из имени тега -> количества.
     */
   def countTags(searchTags: Seq[String]): Future[Map[String, CountDto]] = {
-    //FIXME: пока что только один тег. Далее композировать все теги.
-    val tag = searchTags.head
+    var futureList: List[Future[Map[String, CountDto]]] = Nil
 
-    daService.getByTag(tag)
-      .map { jsValue =>
-        jsonExtracter.countTags(jsValue)
-      }
+    for (tag <- searchTags) {
+      val future = daService.getByTag(tag)
+        .map { jsValue =>
+          jsonExtracter.countTags(jsValue)
+        }
+
+      futureList = future :: futureList
+    }
+
+    Future.sequence(futureList).map { resultList =>
+      jsonExtracter.mergeResults(resultList)
+    }
   }
-
 }
+

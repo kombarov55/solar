@@ -2,14 +2,23 @@ package controllers
 
 import dto.CountDto
 import javax.inject.Inject
+import util.FixedSizeExecutionContext
 import play.api.libs.json._
 import play.api.mvc.{AbstractController, ControllerComponents}
 import service.bs.TagService
 import play.api.libs.functional.syntax._
 
-import scala.concurrent.ExecutionContext.Implicits.global
 
-class SearchController @Inject()(private val tagService: TagService, cc: ControllerComponents) extends AbstractController(cc) {
+/**
+  * Контроллер получения данных по подсчёту тегов.
+  * @param tagService сервис с логикой работы.
+  * @param fixedSizeExecutionContext excutionContext, использующийся для параллелизма.
+  */
+class SearchController @Inject()(
+    private val tagService: TagService,
+    private implicit val fixedSizeExecutionContext: FixedSizeExecutionContext,
+    cc: ControllerComponents
+) extends AbstractController(cc) {
 
   def search() = Action.async { implicit rq =>
     val tags = getTagsFromUrl(rq.uri)
