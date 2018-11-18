@@ -21,9 +21,9 @@ class SearchController @Inject()(
 ) extends AbstractController(cc) {
 
   def search() = Action.async { implicit rq =>
-    val tags = getTagsFromUrl(rq.uri)
+    val requestTags = getTagsFromUrl(rq.uri)
 
-    tagService.countTags(tags).map { result =>
+    tagService.getTagCounts(requestTags).map { result =>
       val json = Json.toJson(result)
       val prettyPrinted = Json.prettyPrint(json)
       Ok(prettyPrinted).as(JSON)

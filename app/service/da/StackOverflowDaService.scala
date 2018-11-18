@@ -24,7 +24,7 @@ class StackOverflowDaService @Inject()(
     * @param tag тег, по которому делать запрос.
     * @return future json ответа.
     */
-  def getByTag(tag: String): Future[JsValue] = {
+  def getQuestionsByTag(tag: String): Future[JsValue] = {
     val URL = "https://api.stackexchange.com/2.2/search"
 
     val rq = wsClient.url(URL)

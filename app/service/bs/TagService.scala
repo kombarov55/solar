@@ -22,14 +22,14 @@ class TagService @Inject()(
   /**
     * Получить количество встречаемых тегов в вопросах, которые нашли поиском по тегу.
     *
-    * @param searchTags теги, по которым необходимо выполнить поиск.
+    * @param requestTags теги, по которым необходимо выполнить поиск.
     * @return map из имени тега -> количества.
     */
-  def countTags(searchTags: Seq[String]): Future[Map[String, CountDto]] = {
+  def getTagCounts(requestTags: Seq[String]): Future[Map[String, CountDto]] = {
     var futureList: List[Future[Map[String, CountDto]]] = Nil
 
-    for (tag <- searchTags) {
-      val future = daService.getByTag(tag)
+    for (tag <- requestTags) {
+      val future = daService.getQuestionsByTag(tag)
         .map { jsValue => jsonExtracter.countTags(jsValue) }
 
       futureList = future :: futureList
