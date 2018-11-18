@@ -1,0 +1,127 @@
+{
+  "items": [
+    {
+      "tags": [
+        "c++",
+        "clojure"
+      ],
+      "owner": {
+        "reputation": 5409,
+        "user_id": 505306,
+        "user_type": "registered",
+        "accept_rate": 84,
+        "profile_image": "https://i.stack.imgur.com/TjIHR.png?s=128&g=1",
+        "display_name": "smilingbuddha",
+        "link": "https://stackoverflow.com/users/505306/smilingbuddha"
+      },
+      "is_answered": false,
+      "view_count": 18,
+      "answer_count": 1,
+      "score": 0,
+      "last_activity_date": 1542535439,
+      "creation_date": 1542531451,
+      "question_id": 53359255,
+      "link": "https://stackoverflow.com/questions/53359255/calling-c-from-clojure",
+      "title": "Calling C++ from clojure"
+    },
+    {
+      "tags": [
+        "clojure",
+        "leiningen"
+      ],
+      "owner": {
+        "reputation": 1254,
+        "user_id": 2899162,
+        "user_type": "registered",
+        "accept_rate": 75,
+        "profile_image": "https://www.gravatar.com/avatar/e232dd2eb7990524453d85d7a89d7388?s=128&d=identicon&r=PG&f=1",
+        "display_name": "druckermanly",
+        "link": "https://stackoverflow.com/users/2899162/druckermanly"
+      },
+      "is_answered": true,
+      "view_count": 10,
+      "accepted_answer_id": 53358800,
+      "answer_count": 1,
+      "score": 0,
+      "last_activity_date": 1542526515,
+      "creation_date": 1542526004,
+      "question_id": 53358750,
+      "link": "https://stackoverflow.com/questions/53358750/getting-java-errors-trying-to-run-leiningen",
+      "title": "Getting java errors trying to run leiningen"
+    },
+    {
+      "tags": [
+        "android",
+        "clojure",
+        "clojure-java-interop"
+      ],
+      "owner": {
+        "reputation": 504,
+        "user_id": 7327755,
+        "user_type": "registered",
+        "profile_image": "https://i.stack.imgur.com/EsjT4.jpg?s=128&g=1",
+        "display_name": "Ashton Wiersdorf",
+        "link": "https://stackoverflow.com/users/7327755/ashton-wiersdorf"
+      },
+      "is_answered": false,
+      "view_count": 9,
+      "answer_count": 0,
+      "score": 0,
+      "last_activity_date": 1542522294,
+      "creation_date": 1542522294,
+      "question_id": 53358433,
+      "link": "https://stackoverflow.com/questions/53358433/how-does-one-invoke-clojure-on-android",
+      "title": "How does one invoke Clojure on Android?"
+    },
+    {
+      "tags": [
+        "clojure"
+      ],
+      "owner": {
+        "reputation": 1,
+        "user_id": 6946630,
+        "user_type": "registered",
+        "profile_image": "https://www.gravatar.com/avatar/466c8b98f0d95d72957fd736b8f73b7a?s=128&d=identicon&r=PG&f=1",
+        "display_name": "Etienne Caronan",
+        "link": "https://stackoverflow.com/users/6946630/etienne-caronan"
+      },
+      "is_answered": false,
+      "view_count": 26,
+      "answer_count": 2,
+      "score": 0,
+      "last_activity_date": 1542509877,
+      "creation_date": 1542499541,
+      "question_id": 53356754,
+      "link": "https://stackoverflow.com/questions/53356754/using-a-mult-argument-predicate-with-filter-in-clojure",
+      "title": "Using a mult-argument Predicate with Filter in Clojure"
+    },
+    {
+      "tags": [
+        "clojure",
+        "functional-programming",
+        "compojure",
+        "ring"
+      ],
+      "owner": {
+        "reputation": 1,
+        "user_id": 7853832,
+        "user_type": "registered",
+        "profile_image": "https://www.gravatar.com/avatar/36e2364028945751469f40fe1342f79d?s=128&d=identicon&r=PG&f=1",
+        "display_name": "mithsewyn",
+        "link": "https://stackoverflow.com/users/7853832/mithsewyn"
+      },
+      "is_answered": false,
+      "view_count": 18,
+      "answer_count": 0,
+      "score": 0,
+      "last_activity_date": 1542493901,
+      "creation_date": 1542493901,
+      "question_id": 53356161,
+      "link": "https://stackoverflow.com/questions/53356161/how-to-properly-start-up-clojure-refs-in-web-applications",
+      "title": "How to properly start up Clojure refs in web applications?"
+    }
+  ],
+  "has_more": true,
+  "quota_max": 300,
+  "quota_remaining": 298
+}
