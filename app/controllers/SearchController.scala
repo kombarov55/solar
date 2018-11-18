@@ -7,17 +7,12 @@ import play.api.mvc.{AbstractController, ControllerComponents}
 import service.bs.TagService
 import play.api.libs.functional.syntax._
 
-class SearchController @Inject()(private val tagService: TagService, cc: ControllerComponents) extends AbstractController(cc) {
+import scala.concurrent.ExecutionContext.Implicits.global
 
-  private implicit val countDtoWrites: Writes[CountDto] = (
-    (JsPath \ "total").write[Int] and
-      (JsPath \ "answered").write[Int]
-    ) (unlift(CountDto.unapply))
+class SearchController @Inject()(private val tagService: TagService, cc: ControllerComponents) extends AbstractController(cc) {
 
   def search() = Action.async { implicit rq =>
     val tags = getTagsFromUrl(rq.uri)
-
-    import scala.concurrent.ExecutionContext.Implicits.global
 
     tagService.countTags(tags).map { result =>
       val json = Json.toJson(result)
@@ -32,7 +27,7 @@ class SearchController @Inject()(private val tagService: TagService, cc: Control
     * @param url url.
     * @return список запрашиваемых url.
     */
-  private def getTagsFromUrl(url: String = "/search?tag=clojure&tag=java"): Seq[String] = {
+  private def getTagsFromUrl(url: String): Seq[String] = {
     return url
       .substring(url.indexOf("?") + 1)
       .split("&")
@@ -44,5 +39,8 @@ class SearchController @Inject()(private val tagService: TagService, cc: Control
       }
   }
 
-
+  private implicit val countDtoWrites: Writes[CountDto] = (
+    (JsPath \ "total").write[Int] and
+      (JsPath \ "answered").write[Int]
+    ) (unlift(CountDto.unapply))
 }
