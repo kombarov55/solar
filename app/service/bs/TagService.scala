@@ -30,9 +30,7 @@ class TagService @Inject()(
 
     for (tag <- searchTags) {
       val future = daService.getByTag(tag)
-        .map { jsValue =>
-          jsonExtracter.countTags(jsValue)
-        }
+        .map { jsValue => jsonExtracter.countTags(jsValue) }
 
       futureList = future :: futureList
     }
