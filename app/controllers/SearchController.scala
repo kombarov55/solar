@@ -12,7 +12,7 @@ import play.api.libs.functional.syntax._
 /**
   * Контроллер получения данных по подсчёту тегов.
   * @param tagService сервис с логикой работы.
-  * @param fixedSizeExecutionContext excutionContext, использующийся для параллелизма.
+  * @param fixedSizeExecutionContext executionContext, использующийся для параллелизма.
   */
 class SearchController @Inject()(
     private val tagService: TagService,
@@ -37,7 +37,7 @@ class SearchController @Inject()(
     * @return список запрашиваемых url.
     */
   private def getTagsFromUrl(url: String): Seq[String] = {
-    return url
+    url
       .substring(url.indexOf("?") + 1)
       .split("&")
       .map { s =>
