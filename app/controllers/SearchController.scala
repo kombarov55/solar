@@ -26,7 +26,7 @@ class SearchController @Inject()(
     tagService.countTags(tags).map { result =>
       val json = Json.toJson(result)
       val prettyPrinted = Json.prettyPrint(json)
-      Ok(prettyPrinted)
+      Ok(prettyPrinted).as(JSON)
     }
   }
 
