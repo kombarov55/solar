@@ -1,7 +1,7 @@
 package service.bs
 
 import javax.inject.{Inject, Singleton}
-import service.da.StackOverflowDa
+import service.da.StackOverflowDaService
 
 import scala.concurrent.Future
 
@@ -11,7 +11,7 @@ import scala.concurrent.Future
   * @param daService сервис по получению данных по вопросам stackOverflow.
   */
 @Singleton
-class TagService @Inject()(private val daService: StackOverflowDa, private val jsonExtracter: JsonExtracter) {
+class TagService @Inject()(private val daService: StackOverflowDaService, private val jsonExtracter: JsonExtracter) {
 
   import scala.concurrent.ExecutionContext.Implicits.global
 

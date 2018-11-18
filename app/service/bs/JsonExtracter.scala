@@ -60,6 +60,4 @@ class JsonExtracter {
       map.put(name, prevValue.get + initialValue)
     }
   }
-
-
 }
