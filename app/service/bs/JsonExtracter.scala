@@ -46,16 +46,18 @@ class JsonExtracter {
   /**
     * Увеличить счётчик внутри QuestionDto.
     *
-    * @param name имя ключа.
     * @param map  map.
+    * @param name имя ключа.
+    * @param count количество ответов с переданным тегом.
+    * @param answered количество отвеченных вопросов с переданным тегом.
     */
-  private def accumulate(map: mutable.Map[String, CountDto], name: String, initialValue: Int = 1, answered: Int): Unit = {
+  private def accumulate(map: mutable.Map[String, CountDto], name: String, count: Int, answered: Int): Unit = {
     val prevValue = map.get(name)
     if (prevValue.isDefined) {
-      prevValue.get.count += initialValue
+      prevValue.get.count += count
       prevValue.get.answered += answered
     } else {
-      map.put(name, CountDto(initialValue, answered))
+      map.put(name, CountDto(count, answered))
     }
   }
 
